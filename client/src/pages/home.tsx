@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,8 +6,6 @@ import {
   Phone,
   Mail,
   MapPin,
-  Menu,
-  X,
   ChevronDown,
   Dna,
   Flower2,
@@ -18,186 +15,17 @@ import {
   Award,
   GraduationCap,
   Quote,
+  ArrowRight,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { Link } from "wouter";
+import { Layout } from "@/components/layout";
 
 const heroBg = "/images/hero-bg.png";
 const servicesGenomic = "/images/services-genomic.png";
 const servicesFlower = "/images/services-flower.png";
 const servicesChiro = "/images/services-chiro.png";
 const servicesNutrition = "/images/services-nutrition.png";
-
-const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About", href: "#about" },
-  { label: "Mission", href: "#mission" },
-  { label: "Services", href: "#services" },
-  { label: "Contact", href: "#contact" },
-];
-
-function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
-
-      const sections = navLinks.map((l) => l.href.slice(1));
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 120) {
-            setActiveSection(sections[i]);
-            break;
-          }
-        }
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollTo = (href: string) => {
-    setMobileOpen(false);
-    const el = document.getElementById(href.slice(1));
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  return (
-    <nav
-      data-testid="navbar"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-background/95 backdrop-blur-md border-b shadow-sm"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4 h-16 sm:h-20">
-          <a
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollTo("#home");
-            }}
-            className="flex items-center gap-2"
-            data-testid="link-logo"
-          >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-serif font-bold text-lg sm:text-xl">
-                T
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <span
-                className={`font-serif font-bold text-base sm:text-lg leading-tight transition-colors ${
-                  scrolled ? "text-foreground" : "text-white"
-                }`}
-              >
-                Dr. Tani
-              </span>
-              <span
-                className={`text-[10px] sm:text-xs leading-tight transition-colors ${
-                  scrolled ? "text-muted-foreground" : "text-white/70"
-                }`}
-              >
-                Holistic Wellness
-              </span>
-            </div>
-          </a>
-
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Button
-                key={link.href}
-                variant="ghost"
-                size="sm"
-                onClick={() => scrollTo(link.href)}
-                data-testid={`link-nav-${link.label.toLowerCase()}`}
-                className={`font-medium ${
-                  activeSection === link.href.slice(1)
-                    ? scrolled
-                      ? "text-primary bg-accent"
-                      : "text-white bg-white/15"
-                    : scrolled
-                      ? "text-muted-foreground"
-                      : "text-white/80"
-                }`}
-              >
-                {link.label}
-              </Button>
-            ))}
-            <Button
-              size="sm"
-              className="ml-3"
-              onClick={() => scrollTo("#contact")}
-              data-testid="button-nav-appointment"
-            >
-              <Phone className="w-3.5 h-3.5 mr-1.5" />
-              Schedule Visit
-            </Button>
-          </div>
-
-          <Button
-            size="icon"
-            variant="ghost"
-            className={`md:hidden ${!scrolled ? "text-white" : ""}`}
-            onClick={() => setMobileOpen(!mobileOpen)}
-            data-testid="button-mobile-menu"
-          >
-            {mobileOpen ? (
-              <X className="w-5 h-5" />
-            ) : (
-              <Menu className="w-5 h-5" />
-            )}
-          </Button>
-        </div>
-      </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-background/98 backdrop-blur-lg border-b"
-          >
-            <div className="px-4 py-3 space-y-1">
-              {navLinks.map((link) => (
-                <Button
-                  key={link.href}
-                  variant="ghost"
-                  onClick={() => scrollTo(link.href)}
-                  data-testid={`link-mobile-${link.label.toLowerCase()}`}
-                  className={`w-full justify-start font-medium ${
-                    activeSection === link.href.slice(1)
-                      ? "text-primary bg-accent"
-                      : "text-muted-foreground"
-                  }`}
-                >
-                  {link.label}
-                </Button>
-              ))}
-              <Button
-                className="w-full mt-2"
-                onClick={() => scrollTo("#contact")}
-                data-testid="button-mobile-appointment"
-              >
-                <Phone className="w-4 h-4 mr-2" />
-                Schedule Visit
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
-  );
-}
 
 function HeroSection() {
   return (
@@ -264,29 +92,25 @@ function HeroSection() {
         >
           <Button
             size="lg"
-            onClick={() =>
-              document
-                .getElementById("contact")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
+            asChild
             data-testid="button-hero-appointment"
           >
-            <Phone className="w-4 h-4 mr-2" />
-            Schedule Appointment
+            <Link href="/appointment">
+              <Phone className="w-4 h-4 mr-2" />
+              Schedule Appointment
+            </Link>
           </Button>
           <Button
             size="lg"
             variant="outline"
             className="backdrop-blur-sm bg-white/10 border-white/25 text-white"
-            onClick={() =>
-              document
-                .getElementById("services")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
+            asChild
             data-testid="button-hero-services"
           >
-            View Services
-            <ChevronDown className="w-4 h-4 ml-2" />
+            <Link href="/services">
+              View Services
+              <ChevronDown className="w-4 h-4 ml-2" />
+            </Link>
           </Button>
         </motion.div>
       </div>
@@ -346,6 +170,13 @@ function AboutSection() {
                 Florida, Louisiana, and Utah.
               </p>
             </div>
+
+            <Button variant="outline" className="mt-6" asChild>
+              <Link href="/about">
+                Read Full Story
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+            </Button>
           </div>
 
           <div className="space-y-4">
@@ -493,6 +324,13 @@ function MissionSection() {
             </span>
           </p>
         </div>
+
+        <Button variant="outline" className="mt-8" asChild>
+          <Link href="/mission">
+            Read Full Mission
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Link>
+        </Button>
       </div>
     </section>
   );
@@ -595,6 +433,15 @@ function ServicesSection() {
               </Card>
             </motion.div>
           ))}
+        </div>
+
+        <div className="text-center mt-10">
+          <Button variant="outline" asChild>
+            <Link href="/services">
+              View All Services
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+          </Button>
         </div>
       </div>
     </section>
@@ -733,110 +580,14 @@ function ContactSection() {
   );
 }
 
-function Footer() {
-  return (
-    <footer
-      className="bg-foreground text-background py-10 sm:py-14"
-      data-testid="footer"
-    >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-serif font-bold text-lg">
-                  T
-                </span>
-              </div>
-              <div>
-                <span className="font-serif font-bold text-base">
-                  Dr. John Tani
-                </span>
-              </div>
-            </div>
-            <p className="text-background/60 text-sm leading-relaxed">
-              Holistic chiropractic and wellness care. Serving the Draper, Utah
-              community for over 38 years.
-            </p>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-sm mb-4 tracking-wider uppercase text-background/80">
-              Quick Links
-            </h4>
-            <ul className="space-y-2">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      document
-                        .getElementById(link.href.slice(1))
-                        ?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="text-background/60 text-sm transition-colors"
-                    data-testid={`link-footer-${link.label.toLowerCase()}`}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-sm mb-4 tracking-wider uppercase text-background/80">
-              Contact
-            </h4>
-            <div className="space-y-3">
-              <a
-                href="tel:1-801-269-8989"
-                className="flex items-center gap-2 text-background/60 text-sm transition-colors"
-                data-testid="link-footer-phone"
-              >
-                <Phone className="w-4 h-4" />
-                (801) 269-8989
-              </a>
-              <a
-                href="mailto:askDrTani@gmail.com"
-                className="flex items-center gap-2 text-background/60 text-sm transition-colors"
-                data-testid="link-footer-email"
-              >
-                <Mail className="w-4 h-4" />
-                askDrTani@gmail.com
-              </a>
-              <div
-                className="flex items-start gap-2 text-background/60 text-sm"
-                data-testid="text-footer-address"
-              >
-                <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
-                <span>12226 S 1000 E, Ste #1, Draper, UT 84020</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <Separator className="my-8 bg-background/10" />
-
-        <p className="text-center text-background/40 text-xs sm:text-sm">
-          Dr. John Tani, D.C. -- ASKnutrigenomic Wellness Center
-        </p>
-      </div>
-    </footer>
-  );
-}
-
 export default function Home() {
   return (
-    <div className="min-h-screen">
-      <Navbar />
+    <Layout>
       <HeroSection />
       <AboutSection />
       <MissionSection />
       <ServicesSection />
       <ContactSection />
-      <Footer />
-    </div>
+    </Layout>
   );
 }
