@@ -12,10 +12,10 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Layout, PageHeader } from "@/components/layout";
 
-const servicesGenomic = "/images/services-genomic.png";
-const servicesFlower = "/images/services-flower.png";
-const servicesChiro = "/images/services-chiro.png";
-const servicesNutrition = "/images/services-nutrition.png";
+const servicesGenomic = "./images/services-genomic.png";
+const servicesFlower = "./images/services-flower.png";
+const servicesChiro = "./images/services-chiro.png";
+const servicesNutrition = "./images/services-nutrition.png";
 
 const services = [
   {

@@ -10,7 +10,7 @@ import {
 import { motion } from "framer-motion";
 import { Layout, PageHeader } from "@/components/layout";
 
-const drTaniPortrait = "/images/dr-tani-portrait.jpg";
+const drTaniPortrait = "./images/dr-tani-portrait.jpg";
 
 export default function About() {
   return (

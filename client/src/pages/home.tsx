@@ -21,11 +21,11 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { Layout } from "@/components/layout";
 
-const heroBg = "/images/hero-bg.png";
-const servicesGenomic = "/images/services-genomic.png";
-const servicesFlower = "/images/services-flower.png";
-const servicesChiro = "/images/services-chiro.png";
-const servicesNutrition = "/images/services-nutrition.png";
+const heroBg = "./images/hero-bg.png";
+const servicesGenomic = "./images/services-genomic.png";
+const servicesFlower = "./images/services-flower.png";
+const servicesChiro = "./images/services-chiro.png";
+const servicesNutrition = "./images/services-nutrition.png";
 
 function HeroSection() {
   return (
